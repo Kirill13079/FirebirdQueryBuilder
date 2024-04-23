@@ -1,5 +1,7 @@
 ﻿using System;
 using FirebirdQueryBuilder.Commands.Select;
+using FirebirdQueryBuilder.Commands.Select.Table;
+using FirebirdQueryBuilder.Identifiers;
 
 namespace FirebirdQueryBuilder.ConsoleApp
 {
@@ -7,13 +9,22 @@ namespace FirebirdQueryBuilder.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Select select1 = Select.New
-                .Table("users")
-                .Alias("a")
-                .Column("login")
-                .Column("password");
+            Table table = new Table("users");
 
-            Console.WriteLine(select1.ToString());
+            SelectBuilder sb = new SelectBuilder()
+                .FromTable(table)
+                .As("u")
+                .Columns(
+                (column) => {
+                    column.Use("login");
+                }, 
+                (column) => {
+                    column.Use("pass");
+                });
+
+            var textSql = sb.Build();
+
+            Console.WriteLine(textSql);
         }
     }
 }

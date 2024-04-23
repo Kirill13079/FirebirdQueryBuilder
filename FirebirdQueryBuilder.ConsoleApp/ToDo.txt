@@ -1,0 +1,21 @@
+﻿select t.* from table t
+select t.field1, t.field2 from table t
+
+select p.* from procedure_name
+select p.field1, p.filed2 from procedure_name p
+
+select p.* from procedure_name(@param1, @param2)
+select p.field1, p.filed2 from procedure_name(@param1, @param2) p
+
+select t.* from (select u.login from users) t
+
+
+string sql = new Select
+					.FromTable("table", alias: "t")
+					.Columns(column => 
+					{
+						column.Add("field1", "char_length");
+						column.Add("field2")
+					})
+					.ToSqlText();
+
